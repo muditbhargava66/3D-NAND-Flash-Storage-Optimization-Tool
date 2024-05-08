@@ -1,0 +1,11 @@
+numpy
+pandas
+PyYAML
+matplotlib
+seaborn
+scipy
+bchlib
+pyldpc
+lz4
+zstd
+PyQt5

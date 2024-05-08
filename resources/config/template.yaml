@@ -1,0 +1,13 @@
+firmware_version: {{ firmware_version }}
+nand_config:
+  page_size: {{ nand_config.page_size }}
+  block_size: {{ nand_config.block_size }}
+  num_blocks: {{ nand_config.num_blocks }}
+  oob_size: {{ nand_config.oob_size }}
+ecc_config:
+  algorithm: {{ ecc_config.algorithm }}
+  strength: {{ ecc_config.strength }}
+bbm_config:
+  max_bad_blocks: {{ bbm_config.max_bad_blocks }}
+wl_config:
+  wear_leveling_threshold: {{ wl_config.wear_leveling_threshold }}

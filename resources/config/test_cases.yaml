@@ -1,0 +1,52 @@
+test_cases:
+  - name: TestCase1
+    description: Test basic read/write operations
+    steps:
+      - name: Write page
+        action: write_page
+        params:
+          block: 0
+          page: 0
+          data: "Hello, World!"
+      - name: Read page
+        action: read_page
+        params:
+          block: 0
+          page: 0
+        expected_output: "Hello, World!"
+
+  - name: TestCase2
+    description: Test bad block handling
+    steps:
+      - name: Write page to bad block
+        action: write_page
+        params:
+          block: 10
+          page: 0
+          data: "Test data"
+        expected_exception: BadBlockError
+      - name: Mark block as bad
+        action: mark_block_bad
+        params:
+          block: 10
+      - name: Read page from bad block
+        action: read_page
+        params:
+          block: 10
+          page: 0
+        expected_exception: BadBlockError
+
+  - name: TestCase3
+    description: Test wear leveling
+    steps:
+      - name: Write pages to trigger wear leveling
+        action: write_pages
+        params:
+          start_block: 0
+          num_pages: 1000
+          data: "Wear leveling test data"
+      - name: Get least worn block
+        action: get_least_worn_block
+        expected_output_range:
+          min: 0
+          max: 10
