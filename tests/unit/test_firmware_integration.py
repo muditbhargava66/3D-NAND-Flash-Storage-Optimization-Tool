@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import MagicMock, patch
-from src.firmware_integration import FirmwareSpecGenerator, TestBenchRunner, ValidationScriptExecutor
+from firmware_integration import FirmwareSpecGenerator, TestBenchRunner, ValidationScriptExecutor
 
 class TestFirmwareSpecGenerator(unittest.TestCase):
     def setUp(self):

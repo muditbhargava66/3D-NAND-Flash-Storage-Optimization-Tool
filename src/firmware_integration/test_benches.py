@@ -1,18 +1,21 @@
 # src/firmware_integration/test_benches.py
 
+import yaml
 import unittest
 from utils.nand_simulator import NANDSimulator
+from utils.config import Config
 
 class TestBenchRunner:
-    def __init__(self, test_cases_file):
-        with open(test_cases_file, 'r') as file:
-            self.test_cases = yaml.safe_load(file)
+    test_cases_file = '/resources/config/test_cases.yaml'
 
     def run_tests(self):
+        with open(self.test_cases_file, 'r') as file:
+            self.test_cases = yaml.safe_load(file)
+
         test_suite = unittest.TestSuite()
         for test_case in self.test_cases:
             test_class = type(test_case['name'], (unittest.TestCase,), {})
-            test_class.simulator = NANDSimulator(test_case['nand_config'])
+            test_class.simulator = NANDSimulator(Config('resources/config/config.yaml'))
 
             for test_method in test_case['test_methods']:
                 test_func = self._create_test_method(test_method)

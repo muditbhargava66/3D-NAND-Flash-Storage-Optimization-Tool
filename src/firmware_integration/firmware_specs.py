@@ -3,19 +3,30 @@
 import yaml
 
 class FirmwareSpecGenerator:
-    def __init__(self, template_file):
-        with open(template_file, 'r') as file:
-            self.template = yaml.safe_load(file)
+    def __init__(self, config):
+        self.config = config
+        self.template_file = 'resources/config/template.yaml'
+        self.output_file = 'firmware_spec.yaml'
 
-    def generate_spec(self, config):
-        spec = self.template.copy()
-        spec['firmware_version'] = config['firmware_version']
-        spec['nand_config'] = config['nand_config']
-        spec['ecc_config'] = config['ecc_config']
-        spec['bbm_config'] = config['bbm_config']
-        spec['wl_config'] = config['wl_config']
-        return yaml.dump(spec, default_flow_style=False)
+    def generate_spec(self):
+        with open(self.template_file, 'r') as file:
+            template = yaml.safe_load(file)
 
-    def save_spec(self, spec, output_file):
-        with open(output_file, 'w') as file:
-            file.write(spec)
+        spec = template.copy()
+        spec['firmware_version'] = self.config.get('firmware_config', {}).get('version', 'N/A')
+        spec['nand_config'] = self.config.get('nand_config', {})
+        spec['ecc_config'] = self.config.get('optimization_config', {}).get('error_correction', {})
+        spec['bbm_config'] = self.config.get('nand_config', {})
+        spec['wl_config'] = self.config.get('optimization_config', {}).get('wear_leveling', {})
+
+        with open(self.output_file, 'w') as file:
+            yaml.dump(spec, file)
+
+        return spec
+
+class FirmwareSpecValidator:
+    def validate(self, firmware_spec):
+        # Perform validation checks on the firmware specification
+        # Return True if the specification is valid, False otherwise
+        # You can implement your own validation logic here
+        return True

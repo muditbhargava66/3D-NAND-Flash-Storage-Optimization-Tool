@@ -5,22 +5,24 @@ Welcome to the 3D NAND Optimization Tool! This user manual provides a comprehens
 ## Table of Contents
 1. [Installation](#installation)
 2. [Configuration](#configuration)
+   - [config.yaml](#configyaml)
+   - [template.yaml](#templateyaml)
 3. [Usage](#usage)
-   - [Graphical User Interface](#graphical-user-interface)
-   - [Command-Line Interface](#command-line-interface)
+   - [Graphical User Interface (GUI)](#graphical-user-interface-gui)
+   - [Command-Line Interface (CLI)](#command-line-interface-cli)
 4. [Optimization Techniques](#optimization-techniques)
    - [NAND Defect Handling](#nand-defect-handling)
    - [Performance Optimization](#performance-optimization)
    - [Firmware Integration](#firmware-integration)
    - [NAND Characterization](#nand-characterization)
 5. [Troubleshooting](#troubleshooting)
-6. [FAQs](#faqs)
+6. [FAQ](#faq)
 
 ## Installation
 1. Ensure that you have Python 3.7 or above installed on your system.
 2. Clone the repository:
    ```
-   git clone https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git
+   git clone https://github.com/your-username/3d-nand-optimization-tool.git
    ```
 3. Navigate to the project directory:
    ```
@@ -32,63 +34,79 @@ Welcome to the 3D NAND Optimization Tool! This user manual provides a comprehens
    ```
 
 ## Configuration
-1. Open the `config.yaml` file located in the `resources/config/` directory.
-2. Modify the configuration parameters according to your specific requirements:
-   - `nand_config`: Specify the NAND flash configuration, including page size, block size, and the number of blocks.
-   - `optimization_config`: Configure the optimization techniques, such as error correction algorithm, compression level, and caching policy.
-   - `firmware_config`: Set the firmware-related configurations, including firmware version and integration settings.
-3. Save the `config.yaml` file after making the necessary changes.
+The 3D NAND Optimization Tool relies on two configuration files: `config.yaml` and `template.yaml`. These files allow you to customize various aspects of the tool's behavior and specify the desired optimization settings.
+
+### config.yaml
+The `config.yaml` file contains the main configuration settings for the tool. It is located in the `resources/config/` directory. The file is divided into several sections, each controlling a specific aspect of the tool:
+
+- `nand_config`: Specifies the NAND flash configuration, including page size, block size, number of blocks, and number of planes.
+- `optimization_config`: Configures the optimization techniques, such as error correction algorithm, compression level, caching policy, and parallelism settings.
+- `firmware_config`: Sets the firmware-related configurations, including firmware version, read retry, and data scrambling options.
+- `characterization_config`: Specifies the NAND characterization settings, such as sample size, erase threshold, and data retention time.
+- `logging`: Configures the logging behavior, including log level, log file path, maximum log file size, and backup count.
+- `ui_config`: Sets the user interface preferences, such as theme, font size, and window size.
+
+To modify the configuration, open the `config.yaml` file in a text editor and adjust the values according to your requirements. Save the file after making the desired changes.
+
+### template.yaml
+The `template.yaml` file serves as a template for generating the firmware specification. It is located in the `resources/config/` directory. The file contains placeholders that are replaced with actual values from the `config.yaml` file during the firmware specification generation process.
+
+The placeholders in the `template.yaml` file correspond to the configuration settings in the `config.yaml` file. For example, `{{ firmware_version }}` will be replaced with the actual firmware version specified in the `config.yaml` file.
+
+You can customize the `template.yaml` file to match your specific firmware requirements. Modify the file in a text editor, adding or removing placeholders as needed, and save the changes.
 
 ## Usage
-### Graphical User Interface
-1. Run the following command to start the graphical user interface:
-   ```
-   python src/main.py --gui
-   ```
-2. The GUI window will open, presenting various options and controls.
-3. Use the menu bar to access different functionalities, such as loading NAND flash data, configuring optimization settings, and initiating optimization tasks.
-4. Follow the on-screen instructions and tooltips to navigate through the GUI and perform desired actions.
+The 3D NAND Optimization Tool can be used through either a graphical user interface (GUI) or a command-line interface (CLI).
 
-### Command-Line Interface
-1. Open a terminal or command prompt.
-2. Navigate to the project directory.
-3. Run the tool with the desired command-line arguments:
-   ```
-   python src/main.py [arguments]
-   ```
-   Available arguments:
-   - `--input`: Specify the path to the input NAND flash data file.
-   - `--output`: Specify the path to the output optimized data file.
-   - `--config`: Specify the path to the configuration file (default: `resources/config/config.yaml`).
-   - `--log`: Specify the path to the log file (default: `logs/app.log`).
-4. The tool will execute the optimization process based on the provided arguments and configuration.
-5. Monitor the progress and any generated output or logs.
+### Graphical User Interface (GUI)
+To run the tool with the GUI, use the following command:
+```
+python src/main.py --gui
+```
+
+The GUI window will open, providing an intuitive interface to interact with the tool. The main window consists of a menu bar and a central widget displaying the optimization results.
+
+- Use the "File" menu to load NAND flash data, save optimized data, and exit the application.
+- Use the "Settings" menu to open the settings dialog and modify the configuration.
+- The optimization results will be displayed in the central widget, showing various metrics and statistics.
+
+### Command-Line Interface (CLI)
+To run the tool in CLI mode, use the following command:
+```
+python src/main.py
+```
+
+The tool will execute the optimization process based on the configuration specified in the `config.yaml` file. Progress and results will be logged to the console and the log file specified in the configuration.
+
+You can customize the behavior of the CLI mode by modifying the `main()` function in the `src/main.py` file. Implement your desired CLI functionality, such as parsing command-line arguments, displaying results, or saving data to files.
 
 ## Optimization Techniques
+The 3D NAND Optimization Tool employs various optimization techniques to enhance the performance, reliability, and efficiency of NAND flash storage systems.
+
 ### NAND Defect Handling
-- The tool employs error correction algorithms (e.g., BCH, LDPC) to detect and correct bit errors in NAND flash pages.
-- Bad block management is implemented to identify and handle blocks that have become unreliable or have reached their end of life.
-- Wear leveling techniques are applied to evenly distribute write and erase operations across the NAND flash, minimizing wear on individual blocks.
+- Error Correction: Utilizes algorithms like BCH or LDPC to detect and correct bit errors in NAND flash pages.
+- Bad Block Management: Identifies and handles blocks that have become unreliable or have reached their end of life.
+- Wear Leveling: Evenly distributes write and erase operations across the NAND flash to minimize wear on individual blocks.
 
 ### Performance Optimization
-- Data compression is utilized to reduce the amount of data written to the NAND flash, improving write performance and extending the lifespan of the storage medium.
-- Caching mechanisms are employed to store frequently accessed data in memory, reducing the need for repeated NAND flash reads and enhancing read performance.
-- Parallel access techniques are implemented to leverage the inherent parallelism of NAND flash, allowing concurrent read and write operations on different planes or dies.
+- Data Compression: Reduces the amount of data written to the NAND flash, improving write performance and extending the lifespan of the storage medium.
+- Caching: Stores frequently accessed data in memory, reducing the need for repeated NAND flash reads and enhancing read performance.
+- Parallel Access: Leverages the inherent parallelism of NAND flash to perform concurrent read and write operations on different planes or dies.
 
 ### Firmware Integration
-- The tool provides firmware specification generation based on predefined templates and configurations, ensuring compatibility and optimal performance.
-- Test benches and validation scripts are included to verify the correctness and reliability of the firmware integration.
+- Firmware Specification Generation: Generates firmware specifications based on predefined templates and configurations, ensuring compatibility and optimal performance.
+- Test Benches: Validates the correctness and reliability of the firmware through a set of test cases and scenarios.
+- Validation Scripts: Performs additional checks and validations on the firmware to ensure its integrity and functionality.
 
 ### NAND Characterization
-- The tool collects and analyzes various NAND flash characteristics, such as erase count distribution, bad block patterns, and performance metrics.
-- Visual representations and reports are generated to provide insights into the NAND flash behavior and assist in making data-driven optimization decisions.
+- Data Collection: Gathers relevant data from NAND flash devices, including page data, block metadata, and error correction information.
+- Data Analysis: Analyzes the collected data to extract meaningful insights, such as erase count distribution, error rates, and performance metrics.
+- Data Visualization: Generates visual representations of the analyzed data to facilitate interpretation and decision-making.
 
 ## Troubleshooting
-- If you encounter any issues or errors while using the tool, refer to the troubleshooting section in the documentation.
-- Common problems and their solutions are listed, along with steps to diagnose and resolve specific issues.
-- If the problem persists, please file an issue on the project's GitHub repository, providing detailed information about the encountered issue and any relevant logs or error messages.
+If you encounter any issues while using the 3D NAND Optimization Tool, refer to the troubleshooting section in the documentation for common problems and their solutions. If the problem persists, please file an issue on the project's GitHub repository, providing detailed information about the encountered issue and any relevant logs or error messages.
 
-## FAQs
+## FAQ
 1. **Q:** Can I use this tool with different types of NAND flash?
    **A:** Yes, the tool is designed to work with various types of NAND flash. Ensure that you configure the NAND flash parameters correctly in the `config.yaml` file.
 

@@ -1,17 +1,19 @@
 # src/utils/__init__.py
 
 from .config import Config, load_config, save_config
-from .logger import Logger, setup_logger, get_logger
+# from .logger import Logger, setup_logger, get_logger
 from .file_handler import FileHandler
 from .nand_interface import NANDInterface
+from .nand_simulator import NANDSimulator
 
 __all__ = [
     'Config',
     'load_config',
     'save_config',
-    'Logger',
-    'setup_logger',
-    'get_logger',
+    # 'Logger',
+    # 'setup_logger',
+    # 'get_logger',
     'FileHandler',
-    'NANDInterface'
+    'NANDInterface',
+    'NANDSimulator'
 ]

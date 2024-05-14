@@ -1,40 +1,23 @@
-# src/utils/logger.py
-
 import logging
+from pathlib import Path
 
-class Logger:
-    def __init__(self, name, level=logging.INFO):
-        self.logger = logging.getLogger(name)
-        self.logger.setLevel(level)
+def setup_logger(name, config):
+    logger = logging.getLogger(name)
+    logger.setLevel(config.get('logging', {}).get('level', 'INFO'))
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    log_file = config.get('logging', {}).get('file', '/logs/app.log')
+    log_dir = Path(log_file).parent
+    log_dir.mkdir(parents=True, exist_ok=True)
 
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(formatter)
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(file_handler)
 
-        file_handler = logging.FileHandler('app.log')
-        file_handler.setFormatter(formatter)
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(console_handler)
 
-        self.logger.addHandler(console_handler)
-        self.logger.addHandler(file_handler)
-
-    def debug(self, message):
-        self.logger.debug(message)
-
-    def info(self, message):
-        self.logger.info(message)
-
-    def warning(self, message):
-        self.logger.warning(message)
-
-    def error(self, message):
-        self.logger.error(message)
-
-    def critical(self, message):
-        self.logger.critical(message)
-
-def setup_logger(name, level=logging.INFO):
-    return Logger(name, level)
+    return logger
 
 def get_logger(name):
     return logging.getLogger(name)

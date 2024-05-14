@@ -1,44 +1,38 @@
 # NAND Characterization
 
-The NAND Characterization module of the 3D NAND Optimization Tool focuses on collecting, analyzing, and visualizing various characteristics and metrics of NAND flash devices. It provides insights into the performance, reliability, and behavior of NAND flash storage systems, enabling data-driven optimization decisions.
+The NAND Characterization module focuses on collecting, analyzing, and visualizing various characteristics and metrics of NAND flash devices. It provides insights into the performance, reliability, and behavior of NAND flash storage systems, enabling data-driven optimization decisions.
 
 ## Data Collection
-- The `DataCollector` class is responsible for collecting relevant data from NAND flash devices during the characterization process.
-- It interacts with the NAND Controller module to read and retrieve raw data from the NAND flash, including page data, block metadata, and error correction information.
-- The collected data is stored in a structured format, such as CSV files or a database, for further analysis and processing.
-- The data collection process can be customized based on specific requirements, such as the number of samples, sampling frequency, and the type of data to be collected.
+- Utilizes the `NANDController` and `NANDInterface` classes to interact with the NAND flash device and retrieve raw data.
+- Collects relevant data such as page data, block metadata, and error correction information.
+- Stores the collected data in a structured format, such as CSV files or a database, for further analysis and processing.
+- Provides configuration options to customize the data collection process, including the number of samples, sampling frequency, and the type of data to be collected.
+- The `data_collection.py` file contains the implementation of the data collection functionality.
 
 ## Data Analysis
-- The `DataAnalyzer` class performs advanced analysis on the collected NAND flash data to extract meaningful insights and metrics.
-- It applies statistical techniques, machine learning algorithms, and domain-specific knowledge to process and interpret the raw data.
-- The analysis tasks include:
-  - Calculating erase count distribution to understand the wear leveling effectiveness and identify potential hotspots.
-  - Analyzing error rates and patterns to assess the reliability and health of the NAND flash devices.
-  - Identifying performance bottlenecks and optimization opportunities based on read/write latency and throughput metrics.
-  - Detecting anomalies and outliers that may indicate potential issues or degradation in the NAND flash storage system.
-- The analyzed data is stored in a structured format, such as JSON or a database, for further visualization and reporting.
+- Performs advanced analysis on the collected NAND flash data to extract meaningful insights and metrics.
+- Applies statistical techniques, machine learning algorithms, and domain-specific knowledge to process and interpret the raw data.
+- Calculates key metrics such as erase count distribution, error rates, performance characteristics, and trends over time.
+- Identifies potential issues, anomalies, or patterns that may indicate NAND flash degradation or optimization opportunities.
+- Provides configurable parameters to customize the analysis algorithms and thresholds.
+- The `data_analysis.py` file contains the implementation of the data analysis functionality.
 
 ## Data Visualization
-- The `DataVisualizer` class generates visual representations of the analyzed NAND flash data to facilitate interpretation and decision-making.
-- It utilizes popular data visualization libraries, such as Matplotlib or Plotly, to create informative and interactive visualizations.
-- The visualization tasks include:
-  - Generating erase count distribution histograms to visualize the wear leveling distribution across NAND flash blocks.
-  - Plotting error rate trends over time to monitor the reliability and health of the NAND flash devices.
-  - Creating performance dashboards to showcase key metrics, such as read/write latency, throughput, and queue depth.
-  - Visualizing anomalies and outliers using scatter plots or heatmaps to identify potential issues or degradation patterns.
-- The generated visualizations are saved as image files (e.g., PNG, JPEG) or interactive HTML files for easy sharing and presentation.
+- Generates visual representations of the analyzed NAND flash data to facilitate interpretation and decision-making.
+- Utilizes popular data visualization libraries, such as Matplotlib or Plotly, to create informative and interactive visualizations.
+- Plots various graphs and charts, such as erase count histograms, error rate trends, performance comparisons, and block health maps.
+- Allows customization of visual elements, including colors, labels, and axis settings, to enhance clarity and readability.
+- Provides options to save the generated visualizations as image files or interactive HTML files for easy sharing and reporting.
+- The `visualization.py` file contains the implementation of the data visualization functionality.
 
-## Integration with Other Modules
-- The NAND Characterization module integrates with other modules of the 3D NAND Optimization Tool to provide a comprehensive optimization solution.
-- It collaborates with the NAND Controller module to access and retrieve raw data from the NAND flash devices.
-- The collected and analyzed data is shared with the Firmware Integration module to guide the firmware optimization process and validate the effectiveness of the applied optimizations.
-- The visualizations and insights generated by the NAND Characterization module are utilized by the User Interface module to present meaningful information to the users and support data-driven decision-making.
+The NAND Characterization module integrates seamlessly with the other modules of the 3D NAND Optimization Tool to provide a comprehensive understanding of the NAND flash storage system's behavior and performance. It leverages the data collected by the NAND Controller and utilizes the configuration settings specified in the `config.yaml` file to customize its functionality.
 
-## Extensibility and Customization
-- The NAND Characterization module is designed to be extensible and customizable to accommodate diverse NAND flash technologies and characterization requirements.
-- It provides a plugin-based architecture that allows the integration of new data collection, analysis, and visualization techniques without modifying the core codebase.
-- The module supports the configuration of various parameters, such as data collection settings, analysis algorithms, and visualization preferences, through configuration files or user inputs.
+Logging is employed throughout the module to capture important events, errors, and progress related to NAND characterization. The logging configuration is specified in the `config.yaml` file and utilized by the logger module.
 
-By leveraging the NAND Characterization module, the 3D NAND Optimization Tool enables a deep understanding of the NAND flash storage system's characteristics and behaviors. It empowers engineers and researchers to make informed optimization decisions, identify potential issues, and continuously monitor the health and performance of the NAND flash devices.
+The NAND Characterization module is designed to be extensible, allowing for the integration of new data collection sources, analysis techniques, or visualization methods as needed. It provides a flexible framework for exploring and understanding the characteristics of NAND flash devices.
+
+By leveraging the insights gained from NAND characterization, engineers and developers can make informed decisions regarding optimization strategies, firmware enhancements, and system design. The module enables data-driven approaches to improving the performance, reliability, and endurance of NAND flash storage systems.
+
+The NAND Characterization module is a valuable tool for researchers, engineers, and system architects working with 3D NAND flash technology. It empowers them to explore the intricacies of NAND flash behavior, identify potential issues, and optimize the storage system for specific application requirements.
 
 ---

@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import MagicMock, patch
-from src.nand_characterization import DataCollector, DataAnalyzer, DataVisualizer
+from nand_characterization import DataCollector, DataAnalyzer, DataVisualizer
 
 class TestDataCollector(unittest.TestCase):
     def setUp(self):

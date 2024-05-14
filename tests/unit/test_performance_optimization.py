@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import MagicMock, patch
-from src.performance_optimization import DataCompressor, CachingSystem, ParallelAccessManager
+from performance_optimization import DataCompressor, CachingSystem, ParallelAccessManager
 
 class TestDataCompressor(unittest.TestCase):
     def setUp(self):

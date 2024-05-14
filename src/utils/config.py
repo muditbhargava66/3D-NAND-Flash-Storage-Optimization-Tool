@@ -3,14 +3,8 @@
 import yaml
 
 class Config:
-    def __init__(self, config_file):
-        self.config_file = config_file
-        self.config = self.load_config()
-
-    def load_config(self):
-        with open(self.config_file, 'r') as file:
-            config = yaml.safe_load(file)
-        return config
+    def __init__(self, config):
+        self.config = config
 
     def get(self, key, default=None):
         return self.config.get(key, default)
@@ -18,8 +12,8 @@ class Config:
     def set(self, key, value):
         self.config[key] = value
 
-    def save(self):
-        with open(self.config_file, 'w') as file:
+    def save(self, config_file):
+        with open(config_file, 'w') as file:
             yaml.safe_dump(self.config, file)
 
     @property
@@ -35,8 +29,10 @@ class Config:
         return self.get('optimization_config', {}).get('wear_leveling', {})
 
 def load_config(config_file):
-    return Config(config_file)
+    with open(config_file, 'r') as file:
+        config = yaml.safe_load(file)
+    return Config(config)
 
-def save_config(config_file, config):
+def save_config(config, config_file):
     with open(config_file, 'w') as file:
-        yaml.safe_dump(config, file)
+        yaml.safe_dump(config.config, file)

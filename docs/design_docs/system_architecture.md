@@ -6,6 +6,8 @@ The 3D NAND Optimization Tool follows a modular architecture that separates conc
 - Serves as the central component that orchestrates the interaction between different modules.
 - Provides an interface for reading, writing, and erasing NAND flash pages and blocks.
 - Integrates with the NAND defect handling, performance optimization, and firmware integration modules.
+- Handles data loading, saving, and retrieval operations.
+- Generates optimization results and statistics.
 
 ## NAND Defect Handling
 - Handles error correction using algorithms such as BCH or LDPC.
@@ -34,3 +36,13 @@ The 3D NAND Optimization Tool follows a modular architecture that separates conc
 - Includes utility modules for configuration management, logging, file handling, and NAND device interfacing.
 
 The modular architecture allows for easy maintenance, testing, and extension of the system. Each component has a well-defined responsibility and communicates with other components through clear interfaces.
+
+The system leverages configuration files (`config.yaml` and `template.yaml`) to customize the behavior and parameters of different modules. The configuration files are loaded and processed by the respective modules to adapt their functionality accordingly.
+
+Logging is employed throughout the system to capture important events, errors, and progress information. The logging configuration is specified in the `config.yaml` file and utilized by the logger module.
+
+The GUI serves as the main entry point for users to interact with the tool. It communicates with the NAND Controller to initiate optimization tasks, retrieve results, and update the displayed information.
+
+Overall, the modular and configurable architecture of the 3D NAND Optimization Tool enables efficient optimization of NAND flash storage systems while providing flexibility and extensibility for future enhancements.
+
+---

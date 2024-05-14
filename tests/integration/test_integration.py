@@ -3,11 +3,11 @@
 import unittest
 import tempfile
 import os
-from src.nand_controller import NANDController
-from src.nand_defect_handling import ECCHandler, BadBlockManager, WearLevelingEngine
-from src.performance_optimization import DataCompressor, CachingSystem, ParallelAccessManager
-from src.firmware_integration import FirmwareSpecGenerator, TestBenchRunner, ValidationScriptExecutor
-from src.nand_characterization import DataCollector, DataAnalyzer, DataVisualizer
+from nand_controller import NANDController
+from nand_defect_handling import ECCHandler, BadBlockManager, WearLevelingEngine
+from performance_optimization import DataCompressor, CachingSystem, ParallelAccessManager
+from firmware_integration import FirmwareSpecGenerator, TestBenchRunner, ValidationScriptExecutor
+from nand_characterization import DataCollector, DataAnalyzer, DataVisualizer
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
@@ -18,7 +18,10 @@ class TestIntegration(unittest.TestCase):
             'oob_size': 128,
             'ecc_strength': 8,
             'max_bad_blocks': 50,
-            'wear_leveling_threshold': 1000
+            'wear_leveling_threshold': 1000,
+            'ecc_config': {},  # Add this key
+            'bbm_config': {},  # Add this key
+            'wl_config': {}  # Add this key
         }
         self.nand_controller = NANDController(self.config)
         self.temp_dir = tempfile.mkdtemp()
@@ -29,9 +32,10 @@ class TestIntegration(unittest.TestCase):
 
     def test_integration(self):
         # NAND Defect Handling
-        ecc_handler = ECCHandler()
-        bad_block_manager = BadBlockManager()
-        wear_leveling_engine = WearLevelingEngine()
+        # ecc_handler = ECCHandler()
+        ecc_handler = ECCHandler(self.config)
+        bad_block_manager = BadBlockManager(self.config)
+        wear_leveling_engine = WearLevelingEngine(self.config)
 
         # Write and read data with ECC
         data = b'Hello, World!'

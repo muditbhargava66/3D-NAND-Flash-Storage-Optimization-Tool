@@ -2,7 +2,7 @@
 
 import unittest
 from unittest.mock import MagicMock, patch
-from src.nand_defect_handling import ECCHandler, BadBlockManager, WearLevelingEngine
+from nand_defect_handling import ECCHandler, BadBlockManager, WearLevelingEngine
 
 class TestECCHandler(unittest.TestCase):
     def setUp(self):

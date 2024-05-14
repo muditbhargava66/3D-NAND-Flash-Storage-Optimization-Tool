@@ -7,25 +7,55 @@ This document provides a comprehensive reference for the API endpoints and funct
    - [read_page](#read_page)
    - [write_page](#write_page)
    - [erase_block](#erase_block)
-2. [NAND Defect Handling](#nand-defect-handling)
-   - [correct_errors](#correct_errors)
    - [mark_bad_block](#mark_bad_block)
    - [is_bad_block](#is_bad_block)
-   - [update_wear_level](#update_wear_level)
-3. [Performance Optimization](#performance-optimization)
-   - [compress_data](#compress_data)
-   - [decompress_data](#decompress_data)
-   - [get_cached_data](#get_cached_data)
-   - [put_cached_data](#put_cached_data)
+   - [get_next_good_block](#get_next_good_block)
+   - [get_least_worn_block](#get_least_worn_block)
+   - [generate_firmware_spec](#generate_firmware_spec)
+   - [read_metadata](#read_metadata)
+   - [write_metadata](#write_metadata)
    - [execute_parallel_operations](#execute_parallel_operations)
+   - [get_results](#get_results)
+   - [load_data](#load_data)
+   - [save_data](#save_data)
+2. [NAND Defect Handling](#nand-defect-handling)
+   - [ECCHandler](#ecchandler)
+     - [encode](#encode)
+     - [decode](#decode)
+   - [BadBlockManager](#badblockmanager)
+     - [mark_bad_block](#mark_bad_block-1)
+     - [is_bad_block](#is_bad_block-1)
+     - [get_next_good_block](#get_next_good_block-1)
+   - [WearLevelingEngine](#wearlevelingengine)
+     - [update_wear_level](#update_wear_level)
+     - [get_least_worn_block](#get_least_worn_block-1)
+     - [get_most_worn_block](#get_most_worn_block)
+3. [Performance Optimization](#performance-optimization)
+   - [DataCompressor](#datacompressor)
+     - [compress](#compress)
+     - [decompress](#decompress)
+   - [CachingSystem](#cachingsystem)
+     - [get](#get)
+     - [put](#put)
+     - [invalidate](#invalidate)
+     - [get_hit_ratio](#get_hit_ratio)
+   - [ParallelAccessManager](#parallelaccessmanager)
+     - [submit_task](#submit_task)
+     - [shutdown](#shutdown)
 4. [Firmware Integration](#firmware-integration)
-   - [generate_firmware_specification](#generate_firmware_specification)
-   - [run_test_bench](#run_test_bench)
-   - [execute_validation_script](#execute_validation_script)
+   - [FirmwareSpecGenerator](#firmwarespecgenerator)
+     - [generate_spec](#generate_spec)
+   - [FirmwareSpecValidator](#firmwarespecvalidator)
+     - [validate](#validate)
 5. [NAND Characterization](#nand-characterization)
-   - [collect_characterization_data](#collect_characterization_data)
-   - [analyze_characterization_data](#analyze_characterization_data)
-   - [visualize_characterization_data](#visualize_characterization_data)
+   - [DataCollector](#datacollector)
+     - [collect_data](#collect_data)
+   - [DataAnalyzer](#dataanalyzer)
+     - [analyze_erase_count_distribution](#analyze_erase_count_distribution)
+     - [analyze_bad_block_trend](#analyze_bad_block_trend)
+   - [DataVisualizer](#datavisualizer)
+     - [plot_erase_count_distribution](#plot_erase_count_distribution)
+     - [plot_bad_block_trend](#plot_bad_block_trend)
 
 ## NAND Controller
 ### read_page
@@ -67,21 +97,6 @@ def erase_block(block: int) -> None:
     """
 ```
 
-## NAND Defect Handling
-### correct_errors
-```python
-def correct_errors(data: bytes) -> bytes:
-    """
-    Corrects errors in the given data using error correction algorithms.
-
-    Args:
-        data (bytes): The data to be corrected.
-
-    Returns:
-        bytes: The corrected data.
-    """
-```
-
 ### mark_bad_block
 ```python
 def mark_bad_block(block: int) -> None:
@@ -107,69 +122,65 @@ def is_bad_block(block: int) -> bool:
     """
 ```
 
-### update_wear_level
+### get_next_good_block
 ```python
-def update_wear_level(block: int) -> None:
+def get_next_good_block(block: int) -> int:
     """
-    Updates the wear level of a block.
+    Finds the next good block starting from the given block.
+
+    Args:
+        block (int): The starting block number.
+
+    Returns:
+        int: The next good block number.
+    """
+```
+
+### get_least_worn_block
+```python
+def get_least_worn_block() -> int:
+    """
+    Finds the block with the least wear level.
+
+    Returns:
+        int: The block number with the least wear level.
+    """
+```
+
+### generate_firmware_spec
+```python
+def generate_firmware_spec() -> str:
+    """
+    Generates the firmware specification.
+
+    Returns:
+        str: The generated firmware specification.
+    """
+```
+
+### read_metadata
+```python
+def read_metadata(block: int) -> int:
+    """
+    Reads metadata from a block.
 
     Args:
         block (int): The block number.
-    """
-```
-
-## Performance Optimization
-### compress_data
-```python
-def compress_data(data: bytes) -> bytes:
-    """
-    Compresses the given data using a specified compression algorithm.
-
-    Args:
-        data (bytes): The data to be compressed.
 
     Returns:
-        bytes: The compressed data.
+        int: The metadata value.
     """
 ```
 
-### decompress_data
+### write_metadata
 ```python
-def decompress_data(data: bytes) -> bytes:
+def write_metadata(block: int, metadata: int) -> None:
     """
-    Decompresses the given compressed data.
+    Writes metadata to a block.
 
     Args:
-        data (bytes): The compressed data.
-
-    Returns:
-        bytes: The decompressed data.
-    """
-```
-
-### get_cached_data
-```python
-def get_cached_data(key: str) -> Optional[bytes]:
-    """
-    Retrieves data from the cache.
-
-    Args:
-        key (str): The cache key.
-
-    Returns:
-        Optional[bytes]: The cached data if found, None otherwise.
-    """
-```
-
-### put_cached_data
-```python
-def put_cached_data(key: str, data: bytes) -> None:
-    """
-    Puts data into the cache.
-
-    Args:
-        key (str): The cache key.
-        data (bytes): The data to be cached.
+        block (int): The block number.
+        metadata (int): The metadata value to be written.
     """
 ```
 
@@ -187,48 +198,280 @@ def execute_parallel_operations(operations: List[Dict]) -> List[Any]:
     """
 ```
 
-## Firmware Integration
-### generate_firmware_specification
+### get_results
 ```python
-def generate_firmware_specification(config: Dict) -> str:
+def get_results() -> Dict:
     """
-    Generates a firmware specification based on the given configuration.
+    Retrieves the optimization results.
+
+    Returns:
+        Dict: A dictionary containing the optimization results.
+    """
+```
+
+### load_data
+```python
+def load_data(file_path: str) -> None:
+    """
+    Loads data from a file.
 
     Args:
-        config (Dict): The firmware configuration.
+        file_path (str): The path to the file to be loaded.
+    """
+```
+
+### save_data
+```python
+def save_data(file_path: str) -> None:
+    """
+    Saves data to a file.
+
+    Args:
+        file_path (str): The path to the file where the data will be saved.
+    """
+```
+
+## NAND Defect Handling
+### ECCHandler
+#### encode
+```python
+def encode(data: bytes) -> bytes:
+    """
+    Encodes the input data using the ECC algorithm.
+
+    Args:
+        data (bytes): The data to be encoded.
+
+    Returns:
+        bytes: The encoded data.
+    """
+```
+
+#### decode
+```python
+def decode(data: bytes) -> Tuple[bytes, int]:
+    """
+    Decodes the input data using the ECC algorithm.
+
+    Args:
+        data (bytes): The data to be decoded.
+
+    Returns:
+        Tuple[bytes, int]: A tuple containing the decoded data and the number of corrected errors.
+    """
+```
+
+### BadBlockManager
+#### mark_bad_block
+```python
+def mark_bad_block(block: int) -> None:
+    """
+    Marks a block as bad in the bad block table.
+
+    Args:
+        block (int): The block number.
+    """
+```
+
+#### is_bad_block
+```python
+def is_bad_block(block: int) -> bool:
+    """
+    Checks if a block is marked as bad.
+
+    Args:
+        block (int): The block number.
+
+    Returns:
+        bool: True if the block is bad, False otherwise.
+    """
+```
+
+#### get_next_good_block
+```python
+def get_next_good_block(block: int) -> int:
+    """
+    Finds the next good block starting from the given block.
+
+    Args:
+        block (int): The starting block number.
+
+    Returns:
+        int: The next good block number.
+    """
+```
+
+### WearLevelingEngine
+#### update_wear_level
+```python
+def update_wear_level(block: int) -> None:
+    """
+    Updates the wear level of a block.
+
+    Args:
+        block (int): The block number.
+    """
+```
+
+#### get_least_worn_block
+```python
+def get_least_worn_block() -> int:
+    """
+    Finds the block with the least wear level.
+
+    Returns:
+        int: The block number with the least wear level.
+    """
+```
+
+#### get_most_worn_block
+```python
+def get_most_worn_block() -> int:
+    """
+    Finds the block with the most wear level.
+
+    Returns:
+        int: The block number with the most wear level.
+    """
+```
+
+## Performance Optimization
+### DataCompressor
+#### compress
+```python
+def compress(data: bytes) -> bytes:
+    """
+    Compresses the input data using the specified compression algorithm.
+
+    Args:
+        data (bytes): The data to be compressed.
+
+    Returns:
+        bytes: The compressed data.
+    """
+```
+
+#### decompress
+```python
+def decompress(data: bytes) -> bytes:
+    """
+    Decompresses the input data using the specified compression algorithm.
+
+    Args:
+        data (bytes): The compressed data.
+
+    Returns:
+        bytes: The decompressed data.
+    """
+```
+
+### CachingSystem
+#### get
+```python
+def get(key: str) -> Optional[bytes]:
+    """
+    Retrieves data from the cache.
+
+    Args:
+        key (str): The cache key.
+
+    Returns:
+        Optional[bytes]: The cached data if found, None otherwise.
+    """
+```
+
+#### put
+```python
+def put(key: str, data: bytes) -> None:
+    """
+    Puts data into the cache.
+
+    Args:
+        key (str): The cache key.
+        data (bytes): The data to be cached.
+    """
+```
+
+#### invalidate
+```python
+def invalidate(key: str) -> None:
+    """
+    Invalidates data in the cache.
+
+    Args:
+        key (str): The cache key.
+    """
+```
+
+#### get_hit_ratio
+```python
+def get_hit_ratio() -> float:
+    """
+    Retrieves the cache hit ratio.
+
+    Returns:
+        float: The cache hit ratio.
+    """
+```
+
+### ParallelAccessManager
+#### submit_task
+```python
+def submit_task(task: Callable, *args, **kwargs) -> Future:
+    """
+    Submits a task for parallel execution.
+
+    Args:
+        task (Callable): The task function to be executed.
+        *args: Positional arguments to be passed to the task function.
+        **kwargs: Keyword arguments to be passed to the task function.
+
+    Returns:
+        Future: A future object representing the result of the task.
+    """
+```
+
+#### shutdown
+```python
+def shutdown() -> None:
+    """
+    Shuts down the parallel access manager.
+    """
+```
+
+## Firmware Integration
+### FirmwareSpecGenerator
+#### generate_spec
+```python
+def generate_spec() -> str:
+    """
+    Generates the firmware specification.
 
     Returns:
         str: The generated firmware specification.
     """
 ```
 
-### run_test_bench
+### FirmwareSpecValidator
+#### validate
 ```python
-def run_test_bench() -> None:
+def validate(firmware_spec: str) -> bool:
     """
-    Runs the firmware test bench.
-    """
-```
-
-### execute_validation_script
-```python
-def execute_validation_script(script_name: str, args: List[str]) -> str:
-    """
-    Executes a firmware validation script.
+    Validates the firmware specification.
 
     Args:
-        script_name (str): The name of the validation script.
-        args (List[str]): The arguments to be passed to the script.
+        firmware_spec (str): The firmware specification to be validated.
 
     Returns:
-        str: The output of the validation script.
+        bool: True if the firmware specification is valid, False otherwise.
     """
 ```
 
 ## NAND Characterization
-### collect_characterization_data
+### DataCollector
+#### collect_data
 ```python
-def collect_characterization_data(num_samples: int, output_file: str) -> None:
+def collect_data(num_samples: int, output_file: str) -> None:
     """
     Collects NAND characterization data.
 
@@ -238,29 +481,49 @@ def collect_characterization_data(num_samples: int, output_file: str) -> None:
     """
 ```
 
-### analyze_characterization_data
+### DataAnalyzer
+#### analyze_erase_count_distribution
 ```python
-def analyze_characterization_data(data_file: str) -> Dict:
+def analyze_erase_count_distribution() -> Dict:
     """
-    Analyzes NAND characterization data.
-
-    Args:
-        data_file (str): The path to the file containing the characterization data.
+    Analyzes the erase count distribution.
 
     Returns:
-        Dict: The analysis results.
+        Dict: The analysis results containing statistical measures of the erase count distribution.
     """
 ```
 
-### visualize_characterization_data
+#### analyze_bad_block_trend
 ```python
-def visualize_characterization_data(data_file: str, output_dir: str) -> None:
+def analyze_bad_block_trend() -> Dict:
     """
-    Visualizes NAND characterization data.
+    Analyzes the bad block trend.
+
+    Returns:
+        Dict: The analysis results containing the trend analysis of bad blocks.
+    """
+```
+
+### DataVisualizer
+#### plot_erase_count_distribution
+```python
+def plot_erase_count_distribution(output_file: str) -> None:
+    """
+    Plots the erase count distribution.
 
     Args:
-        data_file (str): The path to the file containing the characterization data.
-        output_dir (str): The directory for storing the generated visualizations.
+        output_file (str): The path to the output file for saving the plot.
+    """
+```
+
+#### plot_bad_block_trend
+```python
+def plot_bad_block_trend(output_file: str) -> None:
+    """
+    Plots the bad block trend.
+
+    Args:
+        output_file (str): The path to the output file for saving the plot.
     """
 ```
 

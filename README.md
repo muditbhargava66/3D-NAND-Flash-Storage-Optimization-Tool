@@ -14,7 +14,7 @@ The 3D NAND Optimization Tool is a comprehensive software solution for optimizin
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/3d-nand-optimization-tool.git
+   git clone https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git
    ```
 
 2. Navigate to the project directory:
@@ -36,18 +36,28 @@ The 3D NAND Optimization Tool is a comprehensive software solution for optimizin
 
 ## Usage
 
-1. Configure the tool by modifying the configuration files in the `resources/config` directory.
+1. Configure the tool by modifying the configuration files in the `resources/config` directory:
+   - `config.yaml`: Contains the main configuration settings for the tool, including NAND flash configuration, optimization parameters, firmware configuration, characterization settings, logging configuration, and user interface settings.
+   - `template.yaml`: Defines a template for the firmware specification, which is used by the `FirmwareSpecGenerator` to generate the final firmware specification based on the provided configuration.
 
 2. Run the tool using the following command:
    ```
-   python src/main.py
+   python src/main.py --gui
    ```
 
-3. Access the GUI by opening a web browser and navigating to `http://localhost:8080`.
+   The `--gui` flag enables the graphical user interface mode. If you omit this flag, the tool will run in command-line mode.
 
-4. Use the GUI to configure optimization settings, initiate optimization tasks, and monitor the progress.
+3. If running in GUI mode, the main window will appear. Use the menu options to perform various tasks:
+   - "File" menu:
+     - "Open": Load a data file for optimization.
+     - "Save": Save the optimized data to a file.
+     - "Exit": Close the application.
+   - "Settings" menu:
+     - "Settings": Open the settings dialog to modify the configuration.
 
-5. View the optimization results and generated reports in the `data/test_results` directory.
+4. The optimization results will be displayed in the main window. The results include information such as firmware version, read retry status, data scrambling status, total blocks, bad blocks, least worn block, most worn block, and cache hit ratio.
+
+5. The tool logs various events and messages during execution. The log messages are displayed in the console and saved to the log file specified in the `config.yaml` file.
 
 ## Development
 
@@ -59,7 +69,7 @@ To set up the development environment and contribute to the project:
 
 3. Install the development dependencies:
    ```
-   pip install -r requirements-dev.txt
+   pip install -r requirements.txt
    ```
 
 4. Make your changes and additions to the codebase.
@@ -70,7 +80,6 @@ To set up the development environment and contribute to the project:
    ```
 
 6. Submit a pull request with your changes.
-
 
 ## Directory Structure
 
@@ -88,6 +97,8 @@ To set up the development environment and contribute to the project:
 ├── src/
 │   ├── nand_defect_handling/
 │   │   ├── __init__.py
+│   │   ├── bch.py
+│   │   ├── ldpc.py
 │   │   ├── error_correction.py
 │   │   ├── bad_block_management.py
 │   │   └── wear_leveling.py
@@ -127,6 +138,7 @@ To set up the development environment and contribute to the project:
 │   │   └── test_nand_characterization.py
 │   └── integration/
 │       └── test_integration.py
+├── logs/
 ├── data/
 │   ├── nand_characteristics/
 │   │   ├── vendor_a/
@@ -135,8 +147,8 @@ To set up the development environment and contribute to the project:
 ├── resources/
 │   ├── images/
 │   └── config/
-│       ├── template.yaml
-│       └── test_cases.yaml
+│       ├── config.yaml
+│       └── template.yaml
 ├── scripts/
 │   ├── validate.py
 │   ├── performance_test.py
@@ -150,11 +162,11 @@ To set up the development environment and contribute to the project:
 
 ## Documentation
 
-Detailed documentation for the 3D NAND Optimization Tool can be found in the `docs` directory:
+Detailed documentation for the 3D NAND Optimization Tool can be found in the [`docs`](./docs) directory:
 
-- `docs/user_manual.md`: User manual with installation, configuration, and usage instructions.
-- `docs/api_reference.md`: API reference for developers, describing the available modules, classes, and functions.
-- `docs/design_docs`: Design documents outlining the system architecture and module-specific designs.
+- [`docs/user_manual.md`](./docs/user_manual.md): User manual with installation, configuration, and usage instructions.
+- [`docs/api_reference.md`](./docs/api_reference.md): API reference for developers, describing the available modules, classes, and functions.
+- [`docs/design_docs`](./docs/design_docs): Design documents outlining the system architecture and module-specific designs.
 
 ## Contributing
 

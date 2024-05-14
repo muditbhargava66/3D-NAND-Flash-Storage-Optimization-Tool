@@ -4,8 +4,8 @@ PyYAML
 matplotlib
 seaborn
 scipy
-bchlib
-pyldpc
+# bchlib
+# pyldpc
 lz4
 zstd
 PyQt5

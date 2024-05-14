@@ -13,7 +13,7 @@ class ResultViewer(QWidget):
 
         self.result_text_edit = QTextEdit()
         self.result_text_edit.setReadOnly(True)
-        self.result_text_edit.setFont(QFont('Courier', 10))
+        self.result_text_edit.setFont(QFont('Arial', 10))  # Change the font to a widely available one
         layout.addWidget(self.result_text_edit)
 
         self.setLayout(layout)

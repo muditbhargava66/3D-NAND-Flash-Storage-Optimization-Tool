@@ -9,7 +9,10 @@ nand_config:
 optimization_config:
   error_correction:
     algorithm: "bch"  # Error correction algorithm (bch, ldpc)
-    strength: 8  # Error correction strength (number of correctable bits)
+    bch_params:
+      m: 8
+      t: 4
+    # strength: 8  # Error correction strength (number of correctable bits)
   compression:
     algorithm: "lz4"  # Compression algorithm (lz4, zstd)
     level: 3  # Compression level (1-9)

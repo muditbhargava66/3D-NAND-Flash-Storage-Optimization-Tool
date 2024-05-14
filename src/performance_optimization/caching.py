@@ -22,3 +22,9 @@ class CachingSystem:
 
     def clear(self):
         self.cache.clear()
+        
+    def invalidate(self, cache_key):
+        # implement the logic to invalidate the cache for the given key
+        # for example, you can remove the key from the cache dictionary
+        if cache_key in self.cache:
+            del self.cache[cache_key]

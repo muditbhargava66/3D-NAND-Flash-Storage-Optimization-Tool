@@ -5,7 +5,8 @@ from utils.config import Config
 
 class BadBlockManager:
     def __init__(self, config: Config):
-        self.bbm_config = config.bbm_config
+        # self.bbm_config = config.bbm_config
+        self.bbm_config = config.get('bbm_config', {})  # Use get() method to provide a default value
         self.bad_block_table = self._init_bad_block_table()
 
     def _init_bad_block_table(self):
