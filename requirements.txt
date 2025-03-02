@@ -1,11 +1,37 @@
-numpy
-pandas
-PyYAML
-matplotlib
-seaborn
-scipy
-# bchlib
-# pyldpc
-lz4
-zstd
-PyQt5
+# Core dependencies
+numpy>=1.26.0
+pandas>=2.0.0
+PyYAML>=6.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scipy>=1.10.0
+jsonschema>=4.17.3
+methodtools>=0.4.7
+
+# Error correction
+# Uncomment if needed
+# bchlib>=1.0.1  # Optional if needed
+# pyldpc>=0.7.9  # Optional if needed
+
+# Compression
+lz4>=4.3.2
+zstd>=1.5.5.0
+
+# GUI
+PyQt5>=5.15.9
+qdarkstyle>=3.0.2
+
+# Logging
+loguru>=0.6.0
+
+# YAML validation
+jsonschema>=4.17.3
+
+# Testing and development
+pytest>=7.3.1
+pytest-cov>=4.1.0
+tox>=4.6.0
+flake8>=6.0.0
+black>=23.3.0
+isort>=5.12.0
+mypy>=0.991

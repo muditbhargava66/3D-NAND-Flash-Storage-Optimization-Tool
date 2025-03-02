@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 3D NAND Optimization Tool Discussions
+    url: https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool/discussions
+    about: Please ask and answer questions here.
+  - name: 3D NAND Optimization Tool Documentation
+    url: https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool/blob/main/README.md
+    about: Please check the documentation before reporting issues.

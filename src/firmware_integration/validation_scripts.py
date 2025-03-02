@@ -2,6 +2,7 @@
 
 import subprocess
 
+
 class ValidationScriptExecutor:
     def __init__(self, script_dir):
         self.script_dir = script_dir

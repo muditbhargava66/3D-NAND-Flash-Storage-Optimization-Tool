@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=67.7.2", "wheel>=0.40.0"]
+requires = ["setuptools>=68.0.0", "wheel>=0.40.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "3d-nand-optimization-tool"
-version = "1.0.0"
+version = "1.1.0"
 description = "A tool for optimizing 3D NAND flash storage systems"
 readme = "README.md"
 authors = [{ name = "Mudit Bhargava", email = "muditbhargava666@gmail.com" }]
@@ -16,29 +16,60 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
-keywords = ["3D NAND", "optimization", "storage", "firmware"]
+keywords = [
+    "3D NAND", 
+    "NAND flash", 
+    "flash storage", 
+    "storage optimization", 
+    "firmware", 
+    "firmware integration",  
+    "memory management", 
+    "flash memory", 
+    "storage performance", 
+    "NAND optimization",  
+    "wear leveling", 
+    "error correction", 
+    "ECC", 
+    "bad block management", 
+    "BBM"
+]
+requires-python = ">=3.9, <3.14"
 dependencies = [
-    "numpy>=1.23.5",
-    "pandas>=1.5.3",
+    "numpy>=1.26.0",
+    "pandas>=2.0.0",
     "PyYAML>=6.0",
-    "matplotlib>=3.7.1",
-    "seaborn>=0.12.2",
-    "scipy>=1.10.1",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "scipy>=1.10.0",
     "lz4>=4.3.2",
-    "zstd>=1.5.4.0",
+    "zstd>=1.5.5.0",
+    "jsonschema>=4.17.3",
+    "methodtools>=0.4.7",
     "PyQt5>=5.15.9"
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git"
-"Bug Tracker" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git/issues"
-"Documentation" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git"
-"Source Code" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool.git"
+"Homepage" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool"
+"Bug Tracker" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool/issues"
+"Documentation" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool"
+"Source Code" = "https://github.com/muditbhargava66/3D-NAND-Flash-Storage-Optimization-Tool"
+
+[project.optional-dependencies]
+dev = [
+  "tox>=4.0",
+  "pre-commit>=3.0",
+  "black>=24.0",
+  "mypy>=1.8.0",
+  "ruff>=0.4.2",
+  "pytest-cov>=5.0",
+  "uv>=0.1.0"
+]
 
 [project.scripts]
 "3d-nand-optimization-tool" = "src.main:main"
@@ -48,3 +79,60 @@ packages = ["src"]
 
 [tool.setuptools.package-data]
 "src" = ["resources/*", "data/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:"
+]
+
+[tool.black]
+line-length = 160
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 160
+
+[tool.ruff]
+line-length = 160
+target-version = "py310"
+ignore = ["W293", "W291", "F841", "N803", "N806", "B904", "B017", "C901", "E402", "E722", "F401", "N802", "I001"]
+# Extend select rules
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "C90",  # mccabe
+    "I",    # isort
+    "N",    # pep8-naming
+    "B",    # flake8-bugbear
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "venv",
+    "env",
+    ".venv",
+    ".env",
+    "build",
+    "dist"
+]
