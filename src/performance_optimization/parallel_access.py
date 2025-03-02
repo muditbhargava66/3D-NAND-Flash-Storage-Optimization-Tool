@@ -2,6 +2,7 @@
 
 import concurrent.futures
 
+
 class ParallelAccessManager:
     def __init__(self, max_workers=4):
         self.executor = concurrent.futures.ThreadPoolExecutor(max_workers=max_workers)

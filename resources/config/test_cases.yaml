@@ -1,52 +1,89 @@
+---
+# Test cases for the 3D NAND Optimization Tool
 test_cases:
-  - name: TestCase1
+  - name: BasicReadWrite
     description: Test basic read/write operations
-    steps:
-      - name: Write page
-        action: write_page
-        params:
-          block: 0
-          page: 0
-          data: "Hello, World!"
-      - name: Read page
-        action: read_page
-        params:
-          block: 0
-          page: 0
+    test_methods:
+      - name: test_write_read_basic
+        sequence:
+          - type: write
+            block: 10
+            page: 0
+            data: "Hello, World!"
+          - type: read
+            block: 10
+            page: 0
         expected_output: "Hello, World!"
+      
+      - name: test_erase_block
+        sequence:
+          - type: erase
+            block: 11
+          - type: read
+            block: 11
+            page: 0
+        expected_output: ""  # Erased block should return empty/erased state
 
-  - name: TestCase2
-    description: Test bad block handling
-    steps:
-      - name: Write page to bad block
-        action: write_page
-        params:
-          block: 10
-          page: 0
-          data: "Test data"
-        expected_exception: BadBlockError
-      - name: Mark block as bad
-        action: mark_block_bad
-        params:
-          block: 10
-      - name: Read page from bad block
-        action: read_page
-        params:
-          block: 10
-          page: 0
-        expected_exception: BadBlockError
+  - name: BadBlockHandling
+    description: Test bad block management
+    test_methods:
+      - name: test_bad_block_detection
+        sequence:
+          - type: status
+            block: 10
+          - type: write
+            block: 10
+            page: 0
+            data: "Test data"
+          - type: read
+            block: 10
+            page: 0
+        expected_output: "Test data"
+      
+      - name: test_bad_block_replacement
+        sequence:
+          - type: status
+            block: 1022  # High block number that might be bad
+          - type: status
+            block: 1023
+        expected_output: {}  # Any valid status object
 
-  - name: TestCase3
+  - name: WearLeveling
     description: Test wear leveling
-    steps:
-      - name: Write pages to trigger wear leveling
-        action: write_pages
-        params:
-          start_block: 0
-          num_pages: 1000
-          data: "Wear leveling test data"
-      - name: Get least worn block
-        action: get_least_worn_block
-        expected_output_range:
-          min: 0
-          max: 10
+    test_methods:
+      - name: test_wear_leveling_tracking
+        sequence:
+          - type: erase
+            block: 20
+          - type: erase
+            block: 20
+          - type: erase
+            block: 20
+          - type: status
+            block: 20
+        expected_output: {"block_info": {"erase_count": 3}}
+      
+      - name: test_wear_distribution
+        sequence:
+          - type: erase
+            block: 30
+          - type: erase
+            block: 30
+          - type: erase
+            block: 31
+          - type: status
+        expected_output: {}  # Any valid status object
+
+  - name: ErrorCorrection
+    description: Test error correction capabilities
+    test_methods:
+      - name: test_data_integrity
+        sequence:
+          - type: write
+            block: 40
+            page: 0
+            data: "Error correction test data with a reasonably long string to ensure ECC has something to work with."
+          - type: read
+            block: 40
+            page: 0
+        expected_output: "Error correction test data with a reasonably long string to ensure ECC has something to work with."

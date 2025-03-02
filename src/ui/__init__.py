@@ -1,11 +1,23 @@
 # src/ui/__init__.py
 
-from .main_window import MainWindow
-from .settings_dialog import SettingsDialog
-from .result_viewer import ResultViewer
+# Main Window Components
+from .main_window import MainWindow, OperationWorker, WearLevelingGraph
 
+# Result Viewer Components
+from .result_viewer import ResultViewer, ResultVisualizer
+
+# Settings Dialog Components
+from .settings_dialog import SettingsDialog
+
+# Export public API
 __all__ = [
-    'MainWindow',
-    'SettingsDialog',
-    'ResultViewer'
+    # Main Window
+    "MainWindow",
+    "OperationWorker",
+    "WearLevelingGraph",
+    # Settings Dialog
+    "SettingsDialog",
+    # Result Viewer
+    "ResultViewer",
+    "ResultVisualizer",
 ]
